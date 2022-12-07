@@ -1,0 +1,506 @@
+{
+	"info": {
+		"_postman_id": "22a1b7a2-deb8-472e-bdab-a63584e9b396",
+		"name": "nabh-dlm-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "class api",
+			"item": [
+				{
+					"name": "create class",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"class\": \"2nd\",\r\n    \"subjects\": [\r\n        \"630cb6a80852d3d3220d2fc2\",\r\n        \"630cb6b20852d3d3220d2fc4\",\r\n        \"630cb6c20852d3d3220d2fc6\",\r\n        \"630cb6f20852d3d3220d2fc8\",\r\n        \"630cb7080852d3d3220d2fca\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/create/class",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"create",
+								"class"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all class",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/get/classlist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"get",
+								"classlist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update class thier subject",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"class\": \"2nd\",\r\n    \"subjects\": [\r\n        \"630cb6a80852d3d3220d2fc2\",\r\n        \"630cb6b20852d3d3220d2fc4\",\r\n        \"630cb6c20852d3d3220d2fc6\",\r\n        \"630cb6f20852d3d3220d2fc8\",\r\n        \"630cb7080852d3d3220d2fca\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/update/class/631060187c86857f9bb4f155",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"update",
+								"class",
+								"631060187c86857f9bb4f155"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete class",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"class\": \"2nd\",\r\n    \"subjects\": [\r\n        \"630cb6a80852d3d3220d2fc2\",\r\n        \"630cb6b20852d3d3220d2fc4\",\r\n        \"630cb6c20852d3d3220d2fc6\",\r\n        \"630cb6f20852d3d3220d2fc8\",\r\n        \"630cb7080852d3d3220d2fca\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/delete/class/631060597c86857f9bb4f15b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"delete",
+								"class",
+								"631060597c86857f9bb4f15b"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "subject api",
+			"item": [
+				{
+					"name": "create subject",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"subject\": \"physics\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/create/subject",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"create",
+								"subject"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all subject",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/get/subjectlist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"get",
+								"subjectlist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/get/classsubject",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"get",
+								"classsubject"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "chapter api",
+			"item": [
+				{
+					"name": "add chapter",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"chapterName\": \"Narration\",\r\n    \"subjectId\": \"630cb6a80852d3d3220d2fc2\",\r\n    \"classId\": \"631060597c86857f9bb4f15b\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/add/chapter/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"add",
+								"chapter",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get chapter by",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"classId\": \"6310600a7c86857f9bb4f153\",\r\n    \"subjectId\": \"630cb6b20852d3d3220d2fc4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/get/chapters/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"get",
+								"chapters",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update chapter",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"chapterName\": \"Narration\",\r\n    \"subjectId\": \"630cb6a80852d3d3220d2fc2\",\r\n    \"classId\": \"631060597c86857f9bb4f15b\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/update/chapter/6313247ef81798ce158ec964",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"update",
+								"chapter",
+								"6313247ef81798ce158ec964"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete chapter",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/delete/chapter/6310bb0b7849fa1ec3d6a47b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"delete",
+								"chapter",
+								"6310bb0b7849fa1ec3d6a47b"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "topic api",
+			"item": [
+				{
+					"name": "create topic",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"topicName\": \"Interjection\",\r\n    \"chapterId\": \"6310badc7849fa1ec3d6a477\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/create/topic",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"create",
+								"topic"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get topic by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/get/topic/631094b544e7af889f46139a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"get",
+								"topic",
+								"631094b544e7af889f46139a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update topic by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"topicName\": \"Present tense\",\r\n    \"chapterId\": \"631094b544e7af889f46139a\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/update/topic/631205f2db62e5387ae6d30f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"update",
+								"topic",
+								"631205f2db62e5387ae6d30f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete topic",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/delete/topic/631206d5db62e5387ae6d321",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"delete",
+								"topic",
+								"631206d5db62e5387ae6d321"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "questions api",
+			"item": [
+				{
+					"name": "create question",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"question\": \"<p>Banana is a ?</p>\\n\",\r\n    \"options\":[\r\n        {\r\n            \"optionId\": 1,\r\n            \"value\": \"Flower\",\r\n            \"selected\": false\r\n        },\r\n        {\r\n            \"optionId\": 2,\r\n            \"value\": \"Color\",\r\n            \"selected\": false\r\n        },\r\n        {\r\n            \"optionId\": 3,\r\n            \"value\": \"Fruit\",\r\n            \"selected\": false\r\n        },\r\n        {\r\n            \"optionId\": 4,\r\n            \"value\": \"Vehicle\",\r\n            \"selected\": false\r\n        }\r\n    ],\r\n    \"answer\": 3,\r\n    \"topicId\": \"631205f2db62e5387ae6d30f\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/create/question",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"create",
+								"question"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get questions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/get/questions/631205f2db62e5387ae6d30f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"get",
+								"questions",
+								"631205f2db62e5387ae6d30f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check answer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"questions\":[\r\n        {\r\n            \"questionId\": \"631348e8e0cfdddb587a9001\",\r\n            \"answer\": 1\r\n        },\r\n        {\r\n            \"questionId\": \"63134972e0cfdddb587a9007\",\r\n            \"answer\": 4\r\n        },\r\n        {\r\n            \"questionId\": \"631349a8e0cfdddb587a900d\",\r\n            \"answer\": 2\r\n        },\r\n        {\r\n            \"questionId\": \"631349dbe0cfdddb587a9013\",\r\n            \"answer\": 2\r\n        },\r\n        {\r\n            \"questionId\": \"63134a4ae0cfdddb587a9019\",\r\n            \"answer\": 2\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/check/answer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"check",
+								"answer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
