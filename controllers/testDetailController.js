@@ -2,6 +2,7 @@ const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncError = require('../middleware/catchAsyncError');
 const testDetailModel = require('../models/testDetailModel');
 const ObjectId = require('mongoose').Types.ObjectId
+const moment = require('moment');
 
 // It creates a test details
 exports.createTest = catchAsyncError(async (req, res, next) => {
@@ -171,10 +172,11 @@ exports.getTestTakenByClass = catchAsyncError(async(req,res)=> {
 
 // get past test detail of a particular class
 exports.getPastTest = catchAsyncError(async(req,res) => {
+    let date = moment()
     const test = await testDetailModel.find({
         $and: [
             {classId: {$eq: req.params.classId}},
-            {testDate:{$lte:new Date()}}
+            {testDate:{$lt:date.format('YYYY-MM-DD')}}
         ]
     });
     res.status(200).json({
@@ -185,11 +187,15 @@ exports.getPastTest = catchAsyncError(async(req,res) => {
 
 // get upcoming test details of a particular class
 exports.getNextTest = catchAsyncError(async(req,res) => {
+    let date = moment()
     const test = await testDetailModel.find({
         $and: [
             {classId: {$eq: req.params.classId}},
-            {testDate:{$gte:new Date()}}
+            {testDate:{$gte:date.format('YYYY-MM-DD')}}
         ]
+    },
+    {
+        testQuestions: 0
     });
     res.status(200).json({
         success: true,
