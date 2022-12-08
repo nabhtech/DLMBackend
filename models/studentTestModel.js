@@ -61,7 +61,7 @@ const testSchema = new mongoose.Schema({
     },
     showTest: {
         type: Boolean,
-        default: false
+        default: true
     },
     trophies: {
         type: Number,
