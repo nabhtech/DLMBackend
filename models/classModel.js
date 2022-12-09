@@ -5,10 +5,13 @@ const  classSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please add class"]
     },
-    subjects: {
-        type: Array,
-        required: [true, "Please add all subjects"]
-    }
+    subjects: [
+        { 
+            type : mongoose.Types.ObjectId,
+            ref: 'subjects',
+            required: [true, "Please add all subjects"]
+        }
+    ]
 },
 { 
     timestamps: true

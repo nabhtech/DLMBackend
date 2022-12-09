@@ -1,10 +1,34 @@
 const classModel = require('../models/classModel');
 const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncError = require('../middleware/catchAsyncError');
+const ObjectId = require('mongoose').Types.ObjectId
 
 // For creating class
 exports.createClass = catchAsyncError(async (req, res, next)=>{
     const data = await classModel.create(req.body);
+    res.status(200).json({
+        success: true,
+        data
+    })
+});
+
+// Get particular class details
+exports.getSingleClass = catchAsyncError(async (req, res, next)=>{
+    const data = await classModel.aggregate([
+        {
+            $match: {
+                _id: ObjectId(req.params.classId)
+            }
+        },
+        {
+            $lookup: {
+                from: 'subjects',
+                localField: 'subjects',
+                foreignField: '_id',
+                as: 'subjects'
+            }
+        }
+    ])
     res.status(200).json({
         success: true,
         data

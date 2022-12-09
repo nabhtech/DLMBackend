@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { createClass, getClasses, updateClass, deleteClass} = require('../controllers/classController');
+const { createClass, getClasses, updateClass, deleteClass, getSingleClass} = require('../controllers/classController');
 
 /**
  * @swagger
@@ -53,6 +53,8 @@ const { createClass, getClasses, updateClass, deleteClass} = require('../control
  *                                              type: string
  */
 router.route("/create/class").post(createClass);
+
+router.route('/get/class/:classId').get(getSingleClass);
 
 /**
  * @swagger
