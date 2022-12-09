@@ -26,7 +26,7 @@ const testSchema = new mongoose.Schema({
             questionId: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'questions_banks',
-                required: [true, 'Please Enter question id']
+                required: [false, 'Please Enter question id']
             },
             answer: {
                 type: Number,
@@ -34,21 +34,21 @@ const testSchema = new mongoose.Schema({
             },
             mark: {
                 type: Number,
-                required: [true, 'Please Give question mark']
+                required: [false, 'Please Give question mark']
             }
         }
     ],
     totalMarks:{
         type: Number,
-        required: [true, 'Please enter total marks']
+        required: [false, 'Please enter total marks']
     },
     obtainedMarks:{
         type: Number,
-        required: [true, 'Please enter the obtained marks ']
+        required: [false, 'Please enter the obtained marks ']
     },
     testTakenDuration: {
         type: String,
-        required: [true, 'Please Enter Test duration']
+        required: [false, 'Please Enter Test duration']
     },
     resultStatus: {
         type: String,
@@ -57,27 +57,31 @@ const testSchema = new mongoose.Schema({
     },
     percentage: {
         type: Number,
-        required: [true,'Please enter the total percentage']
+        required: [false,'Please enter the total percentage']
     },
     showTest: {
         type: Boolean,
-        default: true
+        default: false
     },
     trophies: {
         type: Number,
-        required: [true,'Please enter no. trophies']
+        required: [false,'Please enter no. trophies']
     },
     medals: {
         type: Number,
-        required: [true,'Please enter no. of medals']
+        required: [false,'Please enter no. of medals']
     },
     testTakenDate:{
         type: Date,
-        required: [true,'Please test taken Date']
+        required: [false,'Please test taken Date']
     },
     currentSessionId: {
         type: String,
         required: [true, "Please enter current school session of student"]
+    },
+    isPresent: {
+        type: Boolean,
+        default: "false"
     }
 },
 { 

@@ -71,8 +71,8 @@ const router= express.Router();
  *      post:
  *          tags:
  *              - Test api
- *          summary: This api create test
- *          description: This api takes test data in a json format through request body then create test in test details collection.
+ *          summary: This api creates and auto genrates test
+ *          description: This api takes test data in a json format through request body then create test in test details collection and it genereates the test for all students of that class  in student test details collection.
  *          requestBody:
  *              required: true
  *              content:
@@ -253,6 +253,8 @@ router.route('/get/last/test/name/:classId/:subjectId').get(getLastTestName);
  *                                                          type: integer
  *                                          currentSessionId:
  *                                              type: string
+ *                                          previewTestStatus:
+ *                                              type: boolean
  */
 router.route('/get/test/detail/:testId').get(getTestDetail);
 

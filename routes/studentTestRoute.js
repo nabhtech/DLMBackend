@@ -1,11 +1,12 @@
 const express = require('express');
-const { createStudentTestRecord, 
+const { updateStudentTestRecord, 
     calculateReward, 
     countStudentPresent, 
     getPercentagebySubAndMonth, 
     leaderBoard, 
     showTestRecord, 
-    ShowQueAns} = require('../controllers/studentTestController');
+    ShowQueAns,
+    generateStudentTestRecord} = require('../controllers/studentTestController');
 const router = express.Router();
 
 
@@ -13,16 +14,10 @@ const router = express.Router();
  * @swagger
  *  components:
  *      schemas:
- *          studentsTestRecord:
+ *          updateTestRecord:
  *              type: object
  *              properties:
- *                  studentId:
- *                      type: string
- *                  classId:
- *                      type: string
  *                  subjectId:
- *                      type: string
- *                  testId:
  *                      type: string
  *                  testRecord:
  *                      type: array
@@ -43,18 +38,22 @@ const router = express.Router();
  *                      type: date
  *                  currentSessionId:
  *                      type: string
+ *                  isPresent: 
+ *                      type: boolean
+ *                  previewTestStatus:
+ *                      type: string
  */
 
 /**
  * @swagger
  *  components:
  *      schema:
- *          studentTestResponses:
+ *          updatedTestResponses:
  *              type: object
  *              properties:
  *                  success:
  *                      type: boolean
- *                  studentTest:
+ *                  Test:
  *                      type: object
  *                      properties:
  *                           _id:
@@ -98,31 +97,44 @@ const router = express.Router();
  *                               type: date
  *                           currentSessionId:
  *                               type: string
+ *                           isPresent:
+ *                               type: boolean
+ *                           previewTestStatus:
+ *                               type: string
  */
 
 /**
  * @swagger
- * /studentTest/record:
- *      post:
+ * /update/studentTest/record/{studentId}/{testId}:
+ *      put:
  *          tags:
  *              - Student test record api
- *          summary: This api save student's submitted test
- *          description: This api save student test record data in a json format through request body and calculate student test result and percentage also.
+ *          summary: This API upadtes student Test
+ *          description: This api Updates student test records, calculates their score and rewards.
+ *          parameters:
+ *              -   in: path
+ *                  name: studentId
+ *                  required: true
+ *                  description: Give student unique object id to parameter.
+ *              -   in: path
+ *                  name: testId
+ *                  required: true
+ *                  description: Give test unique object id to parameter.
  *          requestBody:
  *              required: true
  *              content:
  *                  application/json:
  *                      schema:
- *                          $ref: '#components/schemas/studentsTestRecord'
+ *                          $ref: '#components/schemas/updateTestRecord'
  *          responses:
  *              200:
  *                  description: successful
  *                  content:
  *                      application/json:
  *                          schema:
- *                              $ref: '#components/schema/studentTestResponses'
+ *                              $ref: '#components/schema/updatedTestResponses'
  */
-router.route('/studentTest/record').post(createStudentTestRecord);
+router.route('/update/studentTest/record/:studentId/:testId').put(updateStudentTestRecord);
 
 /**
  * @swagger
@@ -168,9 +180,15 @@ router.route('/studentTest/record').post(createStudentTestRecord);
  *                                          properties:
  *                                              percentage:
  *                                                  type: integer
+ *                                              testId:
+ *                                                  type: array
+ *                                                  items:
+ *                                                      type: object
+ *                                                      properties:
+ *                                                          testName:
+ *                                                              type: string
  */
 router.route('/get/percentage/:studentId').get(getPercentagebySubAndMonth);
-
 
 /**
  * @swagger
@@ -284,7 +302,14 @@ router.route('/count/present/:studentId').get(countStudentPresent);
  *                                                          firstName:
  *                                                              type: string
  *                                                          lastName:
- *                                                              type: string                                                  
+ *                                                              type: string
+ *                                              subjectId:
+ *                                                  type: array
+ *                                                  items:
+ *                                                      type: object
+ *                                                      properties:
+ *                                                          subject:
+ *                                                              type: string
  *                                              testId:
  *                                                  type: string
  *                                              percentage:
@@ -431,5 +456,39 @@ router.route('/show/testRecord/:classId/:subjectId/:testId').get(showTestRecord)
  *                                                              type: integer    
  */
 router.route('/show/testRecord/:testId/:studentId').get(ShowQueAns);
+
+/**
+ * @swagger
+ *  /create/student/test:
+ *      post:
+ *          tags: 
+ *              -   Student test record api
+ *          summary: This api creates all student test record for particular test
+ *          description: This api creates all student test record in student test record collection for a particular test. It takes class id, test id and subject id in request body as json format.
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              classId:
+ *                                  type: string
+ *                              testId:
+ *                                  type: string
+ *                              subject:
+ *                                  type: string
+ *          responses:
+ *              200:
+ *                  description: Successful
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  success:
+ *                                      type: boolean
+ */
+router.route('/create/student/test').post(generateStudentTestRecord)
 
 module.exports = router;

@@ -58,6 +58,10 @@ const testSchema = new mongoose.Schema({
     currentSessionId: {
         type: String,
         required: [true, "Please enter current school session of student"]
+    },
+    previewTestStatus: {
+        type: Boolean,
+        default: false
     }
 },
 { 

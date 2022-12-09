@@ -4,12 +4,36 @@ const studentTestModel = require('../models/studentTestModel');
 const questionBankModel = require('../models/questionModel');
 const testDetailModel = require('../models/testDetailModel');
 const ObjectId = require('mongoose').Types.ObjectId
-const studentsModel = require('../models/studentModel');
+const studentModel = require('../models/studentModel');
 
-// to save student test record
-exports.createStudentTestRecord = catchAsyncError(async(req, res, next)=>{
+// Create all student test record for particular test
+exports.generateStudentTestRecord = catchAsyncError(async (req, res, next)=> {
+    const data = await studentModel.find({className: req.body.classId},{_id: 1,className: 1});
+    let studentRecord = []
+   
+    for(let i = 0; i < data.length; i++){
+        studentRecord.push({
+            studentId: data[i]._id,
+            classId: req.body.classId,
+            testId: req.body.testId,
+            subjectId: req.body.subjectId,
+            isPresent: "false",
+            showTest: "false",
+            resultStatus: "failed",
+            currentSessionId: "notAvailable"
+        });
+    }
 
-    var { studentId, classId, subjectId, testId, testRecord, totalMarks, testTakenDuration, testTakenDate, currentSessionId} = req.body
+    await studentTestModel.insertMany(studentRecord)
+    res.status(200).json({
+        success: true
+    })
+});
+
+// to update student test record
+exports.updateStudentTestRecord = catchAsyncError(async(req, res, next)=>{
+
+    var { testRecord, totalMarks, testTakenDuration, testTakenDate, currentSessionId, isPresent} = req.body
     var obtainedMarks = 0
     var resultStatus = ""
     var percentage = 0
@@ -59,26 +83,40 @@ exports.createStudentTestRecord = catchAsyncError(async(req, res, next)=>{
         }
     };
     
-    const studentTest = await studentTestModel.create({ 
-        studentId, 
-        classId, 
-        subjectId, 
-        testId, 
-        testRecord, 
-        totalMarks, 
-        obtainedMarks, 
-        testTakenDuration, 
-        resultStatus, 
+    const test = await studentTestModel.find({
+        $and: [
+            {studentId: {$eq: req.params.studentId}},
+            {testId: {$eq: req.params.testId}}
+        ]
+    });
+    res.status(200).json({
+        success: true,
+        test
+    });
+
+    
+    const updateTest = await studentTestModel.findByIdAndUpdate(findTest,{  
+        testRecord,
+        totalMarks,
+        obtainedMarks,
+        testTakenDuration,
+        resultStatus,
         percentage,
         trophies,
         medals,
         testTakenDate,
-        currentSessionId
+        currentSessionId,
+        isPresent
+    },
+    {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
     });
 
     res.status(200).json({
         success: true,
-        studentTest
+        updateTest
     });
 });
 
@@ -90,7 +128,8 @@ exports.getPercentagebySubAndMonth = catchAsyncError(async(req, res, next)=> {
     }
 
     const matchQuery = {
-        studentId: { $eq: ObjectId(req.params.studentId)}
+        studentId: { $eq: ObjectId(req.params.studentId)},
+        showTest: { $eq: true }
     }
 
     if (req.query.subjectId) {
@@ -112,15 +151,33 @@ exports.getPercentagebySubAndMonth = catchAsyncError(async(req, res, next)=> {
       }
     }
 
-    const result = await studentTestModel.find( { ...matchQuery }, { _id: 0, percentage: 1 } );
+    // const result = await studentTestModel.find( { ...matchQuery }, { _id: 0, percentage: 1 } );
+    const result = await studentTestModel.aggregate([
+        {
+            $match: matchQuery
+        },
+        {
+            $lookup: {
+                from: 'test_details',
+                localField: 'testId',
+                foreignField: '_id',
+                as: 'testId'
+            }
+        },
+        {
+            $project: { 
+                _id: 0, 
+                percentage: 1,
+                'testId.testName': 1
+            } 
+        }
+    ]);
 
     res.status(200).json({
         success: true,
         result
     });
 }); 
-``
-
 
 // to calculate trophies and medals of each student
 exports.calculateReward = catchAsyncError(async(req,res) => {
@@ -185,7 +242,7 @@ exports.leaderBoard = catchAsyncError(async(req,res) =>{
             ...matchQuery
         },
         {_id: 0, testId: 1}).sort({testTakenDate:-1}).limit(1);
-
+        console.log(lastTest);
         matchQuery2 = {
             $and: [
                 {classId: {$eq: ObjectId(classId)}},
@@ -220,12 +277,21 @@ exports.leaderBoard = catchAsyncError(async(req,res) =>{
                 localField: 'studentId',
                 foreignField: '_id',
                 as: 'studentId'
+            },
+        },
+        {
+            $lookup: {
+                from: 'subjects',
+                localField: 'subjectId',
+                foreignField: '_id',
+                as: 'subjectId'
             }
         },
         {
             $project: {
               "_id": 0,
               "testId": 1,
+              "subjectId.subject": 1,
               "percentage": 1,
               "trophies": 1,
               "medals": 1,

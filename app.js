@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv =require('dotenv');
 const connectDatabase = require('./config/dbConfig');
 const cors = require('cors');
+const momentTz = require('moment-timezone');
 
 // Route imports
 const classRoute = require('./routes/classRoute');
@@ -70,10 +71,7 @@ const options = {
                 url:'http://localhost:8080/'
             },
             {
-                url:'https://nabh-dlm-backend.herokuapp.com/'
-            },
-            {
-                url:'https://wh3dpzvf74.execute-api.us-east-2.amazonaws.com/production/'
+                url: 'https://cbmkot171l.execute-api.us-east-2.amazonaws.com/production/'
             }
 
         ]
@@ -114,14 +112,16 @@ app.use(errorMiddleware);
 
 // This is cron job for making student subscription inactive when subscription ends
 cron.schedule('50 59 23 * * *', async () => {
-
+    let date = new Date()
+    let timeDate = momentTz(date).tz('Asia/Kolkata')
+    
     const student = await studentModel.find({
         $and: [
             {
                 subscriptionStatus: {$eq: 'active'}
             },
             {
-                subscriptionEndDate: {$lte: new Date()}
+                subscriptionEndDate: {$lte: timeDate.format('YYYY-MM-DD')}
             }
         ]
     },

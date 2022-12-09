@@ -54,6 +54,50 @@ const { createClass, getClasses, updateClass, deleteClass, getSingleClass} = req
  */
 router.route("/create/class").post(createClass);
 
+/**
+ * @swagger
+ *  /get/class/{classId}:
+ *      get:
+ *          tags:
+ *              -   Class api
+ *          summary: This api gets all details of a class with subject name
+ *          description: This api gets all details of a class with subject name. To get data you need to give class id in parameter.
+ *          parameters:
+ *              -   in: path
+ *                  name: classId
+ *                  required: true
+ *                  description: Enter class object id here
+ *                  schema:
+ *                      type: string
+ *          responses:
+ *              200:
+ *                  description: successful
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  success:
+ *                                      type: boolean
+ *                                  classDetail:
+ *                                      type: array
+ *                                      items:
+ *                                          type: object
+ *                                          properties:
+ *                                              _id:
+ *                                                  type: string
+ *                                              class:
+ *                                                  type: string
+ *                                              subjects:
+ *                                                  type: array
+ *                                                  items:
+ *                                                      type: object
+ *                                                      properties:
+ *                                                          _id:
+ *                                                              type: string
+ *                                                          subject:
+ *                                                              type: string
+ */
 router.route('/get/class/:classId').get(getSingleClass);
 
 /**

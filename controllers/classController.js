@@ -14,7 +14,7 @@ exports.createClass = catchAsyncError(async (req, res, next)=>{
 
 // Get particular class details
 exports.getSingleClass = catchAsyncError(async (req, res, next)=>{
-    const data = await classModel.aggregate([
+    const classDetail = await classModel.aggregate([
         {
             $match: {
                 _id: ObjectId(req.params.classId)
@@ -31,7 +31,7 @@ exports.getSingleClass = catchAsyncError(async (req, res, next)=>{
     ])
     res.status(200).json({
         success: true,
-        data
+        classDetail
     })
 });
 
