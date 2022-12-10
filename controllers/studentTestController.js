@@ -147,7 +147,7 @@ exports.getPercentagebySubAndMonth = catchAsyncError(async(req, res, next)=> {
 
     if(req.query.month) {
         matchQuery.$expr = {
-            "$eq": [{"$month": "$testTakenDate"},req.query.month]
+            "$eq": [{"$month": "$testTakenDate"},Number(req.query.month)]
       }
     }
 
