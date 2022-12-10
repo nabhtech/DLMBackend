@@ -111,7 +111,7 @@ app.use('',schoolSessionRoute)
 app.use(errorMiddleware);
 
 // This is cron job for making student subscription inactive when subscription ends
-cron.schedule('50 59 23 * * *', async () => {
+cron.schedule('50 20 18 * * *', async () => {
     let date = new Date()
     let timeDate = momentTz(date).tz('Asia/Kolkata')
     
