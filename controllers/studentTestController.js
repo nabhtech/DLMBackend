@@ -100,8 +100,7 @@ exports.updateStudentTestRecord = catchAsyncError(async(req, res, next)=>{
         trophies,
         medals,
         testTakenDate,
-        currentSessionId,
-        isPresent
+        currentSessionId
     },
     {
         new: true,
