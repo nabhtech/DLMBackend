@@ -81,7 +81,7 @@ const testSchema = new mongoose.Schema({
     },
     isPresent: {
         type: Boolean,
-        default: "false"
+        default: false
     }
 },
 { 

@@ -20,7 +20,7 @@ exports.generateStudentTestRecord = catchAsyncError(async (req, res, next)=> {
             isPresent: "false",
             showTest: "false",
             resultStatus: "failed",
-            currentSessionId: "notAvailable"
+            currentSessionId: req.body.currentSessionId
         });
     }
 
@@ -33,7 +33,7 @@ exports.generateStudentTestRecord = catchAsyncError(async (req, res, next)=> {
 // to update student test record
 exports.updateStudentTestRecord = catchAsyncError(async(req, res, next)=>{
 
-    var { testRecord, totalMarks, testTakenDuration, testTakenDate, currentSessionId, isPresent} = req.body
+    var { testRecord, totalMarks, testTakenDuration, testTakenDate, currentSessionId} = req.body
     var obtainedMarks = 0
     var resultStatus = ""
     var percentage = 0
@@ -89,13 +89,8 @@ exports.updateStudentTestRecord = catchAsyncError(async(req, res, next)=>{
             {testId: {$eq: req.params.testId}}
         ]
     });
-    res.status(200).json({
-        success: true,
-        test
-    });
-
     
-    const updateTest = await studentTestModel.findByIdAndUpdate(findTest,{  
+    const updateTest = await studentTestModel.findOneAndUpdate({studentId: req.params.studentId, testId: req.params.testId},{  
         testRecord,
         totalMarks,
         obtainedMarks,
@@ -116,7 +111,7 @@ exports.updateStudentTestRecord = catchAsyncError(async(req, res, next)=>{
 
     res.status(200).json({
         success: true,
-        updateTest
+        test
     });
 });
 
@@ -242,7 +237,7 @@ exports.leaderBoard = catchAsyncError(async(req,res) =>{
             ...matchQuery
         },
         {_id: 0, testId: 1}).sort({testTakenDate:-1}).limit(1);
-        console.log(lastTest);
+        // console.log(lastTest);
         matchQuery2 = {
             $and: [
                 {classId: {$eq: ObjectId(classId)}},
@@ -288,16 +283,24 @@ exports.leaderBoard = catchAsyncError(async(req,res) =>{
             }
         },
         {
+            $lookup: {
+                from: 'test_details',
+                localField: 'testId',
+                foreignField: '_id',
+                as: 'testId'
+            }
+        },
+        {
             $project: {
               "_id": 0,
-              "testId": 1,
+              "testId.testName": 1,
               "subjectId.subject": 1,
               "percentage": 1,
               "trophies": 1,
               "medals": 1,
               "studentId._id": 1,
               "studentId.firstName": 1,
-              "studentId.lastName": 1
+              "studentId.lastName": 1          
             }
         }
     ])
@@ -379,4 +382,21 @@ exports.ShowQueAns = catchAsyncError(async(req,res)=>{
         success: true,
         showQues
     });
+});
+
+exports.updateStudentAttendance = catchAsyncError(async(req, res, next)=>{
+    
+    let student = await studentTestModel.findOneAndUpdate({studentId :req.params.studentId, testId: req.params.testId}, {isPresent: true},{
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
+    });
+
+    if (!student) {
+        return next(new ErrorHandler("student not found", 404));
+    }
+
+    res.status(200).json({
+        success:true
+    })
 });

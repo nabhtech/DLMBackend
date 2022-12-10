@@ -132,7 +132,7 @@ cron.schedule('50 20 18 * * *', async () => {
             {
                 updateOne: {
                     filter: { _id: data._id },
-                    update: { $set: { subscriptionStatus: 'inactive' } }
+                    update: { $set: { subscriptionStatus: 'inactive', planType: 'free' } }
                 }
             })
         )

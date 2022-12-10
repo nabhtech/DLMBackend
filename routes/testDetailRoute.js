@@ -13,7 +13,8 @@ const { createTest,
         getNextTest, 
         getTestName, 
         getTestDateByMonth, 
-        getTestList} = require('../controllers/testDetailController');
+        getTestList,
+        publishTest} = require('../controllers/testDetailController');
 const router= express.Router();
 
 /**
@@ -667,4 +668,7 @@ router.route('/get/test/date/:classId/:subjectId/:month').get(getTestDateByMonth
  *                                                 type: string
  */
 router.route('/get/testList/:classId/:subjectId').get(getTestList);
+
+router.route('/test/publish/:testId').put(publishTest)
+
 module.exports = router;

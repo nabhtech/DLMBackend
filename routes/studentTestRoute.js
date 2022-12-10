@@ -6,7 +6,8 @@ const { updateStudentTestRecord,
     leaderBoard, 
     showTestRecord, 
     ShowQueAns,
-    generateStudentTestRecord} = require('../controllers/studentTestController');
+    generateStudentTestRecord,
+    updateStudentAttendance} = require('../controllers/studentTestController');
 const router = express.Router();
 
 
@@ -40,8 +41,6 @@ const router = express.Router();
  *                      type: string
  *                  isPresent: 
  *                      type: boolean
- *                  previewTestStatus:
- *                      type: string
  */
 
 /**
@@ -99,8 +98,6 @@ const router = express.Router();
  *                               type: string
  *                           isPresent:
  *                               type: boolean
- *                           previewTestStatus:
- *                               type: string
  */
 
 /**
@@ -490,5 +487,7 @@ router.route('/show/testRecord/:testId/:studentId').get(ShowQueAns);
  *                                      type: boolean
  */
 router.route('/create/student/test').post(generateStudentTestRecord)
+
+router.route('/update/attendance/:studentId/:testId').put(updateStudentAttendance)
 
 module.exports = router;

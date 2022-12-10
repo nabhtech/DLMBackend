@@ -1,6 +1,7 @@
 const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncError = require('../middleware/catchAsyncError');
 const testDetailModel = require('../models/testDetailModel');
+const studentTestModel = require('../models/studentTestModel');
 const ObjectId = require('mongoose').Types.ObjectId
 const momentTz = require('moment-timezone');
 
@@ -262,4 +263,36 @@ exports.getTestList = catchAsyncError(async(req,res) =>{
         success: true,
         tests
     })
+});
+
+exports.publishTest = catchAsyncError(async(req, res, next)=>{
+
+    let data = await testDetailModel.findById(req.params.testId);
+    if (!data) {
+        return next(new ErrorHandler("Test not found", 404));
+    }
+
+    var testStatus 
+    if(req.body.previewTestStatus == true){
+        testStatus = true
+    } else {
+        testStatus = false
+    }
+
+    const updated = await testDetailModel.findByIdAndUpdate(req.params.testId, {previewTestStatus: testStatus } ,{
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
+    });
+
+    if(!updated) {
+        return next(new ErrorHandler("Test did not published, Please try again", 404));
+    }
+
+    await studentTestModel.updateMany({ testId: req.params.testId }, { $set: { showTest: testStatus } })
+    
+    res.status(200).json({
+        success: true
+    });
+
 });
