@@ -473,7 +473,7 @@ router.route('/show/testRecord/:testId/:studentId').get(ShowQueAns);
  *                                  type: string
  *                              testId:
  *                                  type: string
- *                              subject:
+ *                              subjectId:
  *                                  type: string
  *          responses:
  *              200:

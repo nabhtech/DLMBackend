@@ -17,8 +17,8 @@ exports.generateStudentTestRecord = catchAsyncError(async (req, res, next)=> {
             classId: req.body.classId,
             testId: req.body.testId,
             subjectId: req.body.subjectId,
-            isPresent: "false",
-            showTest: "false",
+            isPresent: false,
+            showTest: false,
             resultStatus: "failed",
             currentSessionId: req.body.currentSessionId
         });
