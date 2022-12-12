@@ -16,6 +16,9 @@ functions:
   api:
     handler: lambda.handler
     events:
+        - schedule:
+            rate: cron(*/5 * * * *)
+            enabled: true
         - http: ANY /{proxy+}     
         - http: ANY /
     environment:
