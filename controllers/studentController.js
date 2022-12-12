@@ -2,6 +2,7 @@ const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncError = require('../middleware/catchAsyncError');
 const studentModel = require('../models/studentModel');
 const sendToken = require('../utils/jwtToken');
+const ObjectId = require('mongoose').Types.ObjectId
 
 // Register Student controller
 exports.registerStudent = catchAsyncError(async(req, res, next)=>{
@@ -87,7 +88,7 @@ exports.getStudentsCount = catchAsyncError(async(req,res)=> {
 
 //Get details of a particular student
 exports.singleStudentDetail = catchAsyncError(async(req,res)=> {
-    const details = await studentModel.find({_id: {$eq:req.params._id}});
+    const details = await studentModel.find({_id: {$eq:req.params.id}});
     res.status(200).json({
         success: true,
         details
@@ -95,7 +96,22 @@ exports.singleStudentDetail = catchAsyncError(async(req,res)=> {
 });
 // Get details of all students
 exports.studentDetails = catchAsyncError(async(req,res)=>{
-    const details = await studentModel.find();
+    // const details = await studentModel.find({_id: {$eq:req.params.id}});
+    const details = await studentModel.aggregate([
+        {
+            $match:{
+                _id: ObjectId(req.params.id)
+            }
+        },
+        {
+            $lookup: {
+                from: 'classes',
+                localField: 'className',
+                foreignField: '_id',
+                as: 'className'
+            }
+        }
+    ]);
     res.status(200).json({
         success: true,
         details

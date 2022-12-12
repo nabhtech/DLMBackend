@@ -204,7 +204,7 @@ router.route('/studentsCount').get(getStudentsCount);
 
 /**
  * @swagger
- * /single/student/detail/{_id}:
+ * /single/student/detail/{id}:
  *      get:
  *          tags:
  *              - Student api
@@ -212,7 +212,7 @@ router.route('/studentsCount').get(getStudentsCount);
  *          description: It gets the complete deatils single student on the basis of _id
  *          parameters:
  *              -   in: path
- *                  name: _id
+ *                  name: id
  *                  required: true
  *                  description: Give unique object id to parameter.
  *          responses:
@@ -253,11 +253,11 @@ router.route('/studentsCount').get(getStudentsCount);
  *              404:
  *                  description: Variable mismatch or maybe url not match
  */
-router.route('/single/student/detail/:_id').get(singleStudentDetail);
+router.route('/single/student/detail/:id').get(singleStudentDetail);
 
 /**
  * @swagger
- * /All/students/details:
+ * /all/students/details/{id}:
  *      get:
  *          tags:
  *              - Student api
@@ -265,7 +265,7 @@ router.route('/single/student/detail/:_id').get(singleStudentDetail);
  *          description: It gets the complete details of all students of school
  *          parameters:
  *              -   in: path
- *                  name: _id
+ *                  name: id
  *                  required: true
  *                  description: Give class unique object id to parameter.
  *          responses:
@@ -306,7 +306,7 @@ router.route('/single/student/detail/:_id').get(singleStudentDetail);
  *              404:
  *                  description: Variable mismatch or maybe url not match
  */
-router.route('/All/students/details').get(studentDetails);
+router.route('/all/students/details/id').get(studentDetails);
 
 /**
  * @swagger
