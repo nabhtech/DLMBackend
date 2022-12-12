@@ -109,10 +109,11 @@ exports.deleteTestDetails = catchAsyncError(async(req, res, next)=>{
     }
 
     await test.remove();
+    await studentTestModel.deleteMany({testId: req.params.id})
 
     res.status(200).json({
         success: true,
-        message: "Test details deleted successfully"
+        message: "Test details and students test record deleted successfully"
     });
 });
 

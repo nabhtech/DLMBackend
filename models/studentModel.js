@@ -59,7 +59,7 @@ const studentSchema = new mongoose.Schema({
     },
     planType: {
         type: String,
-        default: 'normal'
+        default: 'free plan'
     },
     subscriptionStartDate: {
         type: Date

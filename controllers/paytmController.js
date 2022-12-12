@@ -109,28 +109,52 @@ exports.setPaymentStatus = catchAsyncError(async (req, res, next)=>{
                             var planDetails = null;
 
                             if(userInfo.day) {
-                                
-                                planDetails = {
-                                    subscriptionStatus: 'active',
-                                    planType: userInfo.planType,
-                                    subscriptionStartDate: new Date(),
-                                    subscriptionEndDate: new Date(currentDate.setDate(currentDate.getDate() + userInfo.day))
+
+                                if(studentData.planType != 'free plan' && studentData.subscriptionStatus == 'active'){
+                                    let subscriptionEndDate = studentData.subscriptionEndDate;
+                                    planDetails = {
+                                        planType: userInfo.planType,
+                                        subscriptionEndDate: new Date(subscriptionEndDate.setDate(subscriptionEndDate.getDate() + userInfo.day))
+                                    }
+                                } else {
+                                    planDetails = {
+                                        subscriptionStatus: 'active',
+                                        planType: userInfo.planType,
+                                        subscriptionStartDate: new Date(),
+                                        subscriptionEndDate: new Date(currentDate.setDate(currentDate.getDate() + userInfo.day))
+                                    }
                                 }
                             } else if (userInfo.month) {
                                 
-                                planDetails = {
-                                    subscriptionStatus: 'active',
-                                    planType: userInfo.planType,
-                                    subscriptionStartDate: new Date(),
-                                    subscriptionEndDate: new Date(currentDate.setMonth(currentDate.getMonth() + userInfo.month))
+                                if(studentData.planType != 'free plan' && studentData.subscriptionStatus == 'active'){
+                                    let subscriptionEndDate = studentData.subscriptionEndDate;
+                                    planDetails = {
+                                        planType: userInfo.planType,
+                                        subscriptionEndDate: new Date(subscriptionEndDate.setMonth(subscriptionEndDate.getMonth() + userInfo.month))
+                                    }
+                                } else {
+                                    planDetails = {
+                                        subscriptionStatus: 'active',
+                                        planType: userInfo.planType,
+                                        subscriptionStartDate: new Date(),
+                                        subscriptionEndDate: new Date(currentDate.setMonth(currentDate.getMonth() + userInfo.month))
+                                    }
                                 }
                             } else if (userInfo.year) {
                                 
-                                planDetails = {
-                                    subscriptionStatus: 'active',
-                                    planType: userInfo.planType,
-                                    subscriptionStartDate: new Date(),
-                                    subscriptionEndDate: new Date(currentDate.setFullYear(currentDate.getFullYear() + userInfo.year))
+                                if(studentData.planType != 'free plan' && studentData.subscriptionStatus == 'active'){
+                                    let subscriptionEndDate = studentData.subscriptionEndDate;
+                                    planDetails = {
+                                        planType: userInfo.planType,
+                                        subscriptionEndDate: new Date(subscriptionEndDate.setFullYear(subscriptionEndDate.getFullYear() + userInfo.year))
+                                    }
+                                } else {
+                                    planDetails = {
+                                        subscriptionStatus: 'active',
+                                        planType: userInfo.planType,
+                                        subscriptionStartDate: new Date(),
+                                        subscriptionEndDate: new Date(currentDate.setFullYear(currentDate.getFullYear() + userInfo.year))
+                                    }
                                 }
                             }
                             const subscriptionDetail = await studentModel.findByIdAndUpdate(paytmData.STUDENT_ID, planDetails,
