@@ -306,7 +306,7 @@ router.route('/single/student/detail/:id').get(singleStudentDetail);
  *              404:
  *                  description: Variable mismatch or maybe url not match
  */
-router.route('/all/students/details/id').get(studentDetails);
+router.route('/all/students/details/:id').get(studentDetails);
 
 /**
  * @swagger
