@@ -423,6 +423,7 @@ exports.checkTestAttendance = catchAsyncError(async(req, res, next)=>{
         _id:1,
         isPresent:1
     })
+    
     res.status(200).json({
         isPresent: isPresent
     })

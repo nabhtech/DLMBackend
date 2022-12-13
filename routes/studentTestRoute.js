@@ -7,7 +7,8 @@ const { updateStudentTestRecord,
     showTestRecord, 
     ShowQueAns,
     generateStudentTestRecord,
-    updateStudentAttendance} = require('../controllers/studentTestController');
+    updateStudentAttendance,
+    checkTestAttendance} = require('../controllers/studentTestController');
 const router = express.Router();
 
 

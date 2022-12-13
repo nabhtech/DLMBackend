@@ -9,20 +9,14 @@ provider:
   timeout: 15
   region: us-east-2
 
-
-
-
 functions:
   api:
     handler: lambda.handler
     events:
-        - http: ANY /{proxy+}     
+        - http: ANY /{proxy+}
         - http: ANY /
         - schedule:
             rate: cron(0 0 * * ? *)
             enabled: true
     environment:
           DB_URL: mongodb+srv://Nabh:Nabh123@cluster0.rbcigf9.mongodb.net/nabh-dlm
-  
-
-
