@@ -162,12 +162,14 @@ exports.getTestCountByClass = catchAsyncError(async(req,res)=> {
 
 // it count total number of test taken for a particular class
 exports.getTestTakenByClass = catchAsyncError(async(req,res)=> {
-    const count = await testDetailModel.countDocuments({
+    var query = {
         $and: [
             {classId: {$eq: req.params.classId}},
-            {testStatus:{$eq: 'taken'}}
+            {testStatus:{$eq: 'taken'}},
+            {previewTestStatus: {$eq: true}}
         ]
-    });
+    }
+    const count = await testDetailModel.countDocuments(query);
     res.status(200).json({
         success: true,
         count

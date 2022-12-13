@@ -201,7 +201,14 @@ exports.calculateReward = catchAsyncError(async(req,res) => {
 
 //to count student attendence
 exports.countStudentPresent = catchAsyncError(async(req,res) =>{
-    const present =  await studentTestModel.count({studentId: {$eq:req.params.studentId}});
+    const query = {
+        $and:[
+            {studentId: {$eq:req.params.studentId}},
+            {showTest: {$eq: true}},
+            {isPresent: {$eq: true}}
+        ]
+    }
+    const present =  await studentTestModel.countDocuments(query);
     res.status(200).json({
         success: true,
         present
