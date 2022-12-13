@@ -9,6 +9,7 @@ const { updateStudentTestRecord,
     generateStudentTestRecord,
     updateStudentAttendance,
     checkTestAttendance} = require('../controllers/studentTestController');
+const cors = require('cors');
 const router = express.Router();
 
 
@@ -317,7 +318,7 @@ router.route('/count/present/:studentId').get(countStudentPresent);
  *                                              medals:
  *                                                  type: integer
  */
-router.route('/leaderboard/:classId').get(leaderBoard);
+router.route('/leaderboard/:classId').get(leaderBoard, cors());
 
 /**
  * @swagger
