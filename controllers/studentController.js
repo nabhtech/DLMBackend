@@ -100,7 +100,7 @@ exports.studentDetails = catchAsyncError(async(req,res)=>{
     const details = await studentModel.aggregate([
         {
             $match:{
-                _id: ObjectId(req.params.id)
+                className: ObjectId(req.params.id)
             }
         },
         {
