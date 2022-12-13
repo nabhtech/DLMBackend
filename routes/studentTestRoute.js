@@ -490,4 +490,6 @@ router.route('/create/student/test').post(generateStudentTestRecord)
 
 router.route('/update/attendance/:studentId/:testId').put(updateStudentAttendance)
 
+router.route('/check/test/attendance/:studentId/:testId').get(checkTestAttendance)
+
 module.exports = router;

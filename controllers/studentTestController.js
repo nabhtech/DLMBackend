@@ -392,7 +392,12 @@ exports.ShowQueAns = catchAsyncError(async(req,res)=>{
 
 exports.updateStudentAttendance = catchAsyncError(async(req, res, next)=>{
     
-    let student = await studentTestModel.findOneAndUpdate({studentId :req.params.studentId, testId: req.params.testId}, {isPresent: true},{
+    let student = await studentTestModel.findOneAndUpdate({
+        $and:[
+            {studentId: {$eq: req.params.studentId}},
+            {testId: {$eq: req.params.testId}}
+        ]
+    }, {isPresent: true},{
         new: true,
         runValidators: true,
         useFindAndModify: false
@@ -404,5 +409,21 @@ exports.updateStudentAttendance = catchAsyncError(async(req, res, next)=>{
 
     res.status(200).json({
         success:true
+    })
+});
+
+exports.checkTestAttendance = catchAsyncError(async(req, res, next)=>{
+    const isPresent = await studentTestModel.find({
+        $and:[
+            {studentId: {$eq: req.params.studentId}},
+            {testId: {$eq: req.params.testId}}
+        ]
+    },
+    {
+        _id:1,
+        isPresent:1
+    })
+    res.status(200).json({
+        isPresent: isPresent
     })
 });
