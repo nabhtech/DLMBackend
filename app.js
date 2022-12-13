@@ -1,7 +1,7 @@
 const express = require('express');
 const dotenv =require('dotenv');
 const connectDatabase = require('./config/dbConfig');
-// const cors = require('cors');
+const cors = require('cors');
 const momentTz = require('moment-timezone');
 
 // Route imports
@@ -56,7 +56,7 @@ connectDatabase();
 const app = express();
 
 app.use(express.json());
-// app.use(cors());
+app.use(cors());
 app.use(cookieParser());
 
 const options = {
