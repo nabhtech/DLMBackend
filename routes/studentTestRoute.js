@@ -489,8 +489,72 @@ router.route('/show/testRecord/:testId/:studentId').get(ShowQueAns);
  */
 router.route('/create/student/test').post(generateStudentTestRecord)
 
+/**
+ * @swagger
+ *  /update/attendance/{studentId}/{testId}: 
+ *      put:
+ *          tags: 
+ *              -   Student test record api
+ *          summary: This api updates student present absent in test
+ *          description: This api updates student present absent in test using student id and test id
+ *          parameters:
+ *              -   in: path
+ *                  name: studentId
+ *                  required: true
+ *                  description:
+ *                  schema:
+ *                      type: string
+ *              -   in: path
+ *                  name: testId
+ *                  required: true
+ *                  description:
+ *                  schema:
+ *                      type: string
+ *          responses:
+ *              200:
+ *                  description: Successful
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  success:
+ *                                      type: boolean
+ */
 router.route('/update/attendance/:studentId/:testId').put(updateStudentAttendance)
 
+/**
+ * @swagger
+ *  /check/test/attendance/{studentId}/{testId}:
+ *      get:
+ *          tags:
+ *              -   Student test record api
+ *          summary: This api checks student present absent in test
+ *          description: This api checks student present absent in test using student id and test id
+ *          parameters:
+ *              -   in: path
+ *                  name: studentId
+ *                  required: true
+ *                  description:
+ *                  schema:
+ *                      type: string
+ *              -   in: path
+ *                  name: testId
+ *                  required: true
+ *                  description:
+ *                  schema:
+ *                      type: string
+ *          responses:
+ *              200:
+ *                  description: Successful
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  isPresent:
+ *                                      type: boolean
+ */
 router.route('/check/test/attendance/:studentId/:testId').get(checkTestAttendance)
 
 module.exports = router;

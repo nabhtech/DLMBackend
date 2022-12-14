@@ -669,6 +669,32 @@ router.route('/get/test/date/:classId/:subjectId/:month').get(getTestDateByMonth
  */
 router.route('/get/testList/:classId/:subjectId').get(getTestList);
 
+/**
+ * @swagger
+ *  /test/publish/{testId}:
+ *      put:
+ *          tags:
+ *              -   Test api
+ *          summary: This api publish and unpublish test result
+ *          description: This api publish and unpublish test result and shows to students their result
+ *          parameters:
+ *              -   in: path
+ *                  name: testId
+ *                  required: true
+ *                  description: Please enter test id
+ *                  schema:
+ *                      type: string
+ *          responses:
+ *              200:
+ *                  description: successful
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  success:
+ *                                      type: boolean
+ */
 router.route('/test/publish/:testId').put(publishTest)
 
 module.exports = router;
