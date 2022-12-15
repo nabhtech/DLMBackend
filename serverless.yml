@@ -13,8 +13,10 @@ functions:
   api:
     handler: lambda.handler
     events:
-        - http: ANY /{proxy+}
-        - http: ANY /
+        - https: ANY /{proxy+}
+          cors: true
+        - https: ANY /
+          cors: true
         - schedule:
             rate: cron(0 0 * * ? *)
             enabled: true
