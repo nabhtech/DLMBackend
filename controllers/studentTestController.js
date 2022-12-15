@@ -116,7 +116,9 @@ exports.updateStudentTestRecord = catchAsyncError(async(req, res, next)=>{
 
 // This api get percentage based on student id and optional subject id and month
 exports.getPercentagebySubAndMonth = catchAsyncError(async(req, res, next)=> {
-
+    res.append('Access-Control-Allow-Origin', ['*']);
+    res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.append('Access-Control-Allow-Headers', 'Content-Type');
     if(!req.params.studentId){
         return next(new ErrorHandler('Please provide student Id', 401))
     }
@@ -217,6 +219,9 @@ exports.countStudentPresent = catchAsyncError(async(req,res) =>{
 
 //leaderboard API
 exports.leaderBoard = catchAsyncError(async(req,res) =>{
+    res.append('Access-Control-Allow-Origin', ['*']);
+    res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.append('Access-Control-Allow-Headers', 'Content-Type');
     const classId = req.params.classId;
     let subjectId = ''
     let testId = ''
