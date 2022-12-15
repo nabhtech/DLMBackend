@@ -15,6 +15,14 @@ functions:
     events:
         - http: ANY /{proxy+}
         - http: ANY /
+        - https:
+            path: ANY /{proxy+}
+            method: ANY /
+            cors: true
+        - https:
+            path: ANY /
+            method: ANY /
+            cors: true
         - schedule:
             rate: cron(0 0 * * ? *)
             enabled: true
