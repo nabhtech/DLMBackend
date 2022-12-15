@@ -14,15 +14,7 @@ functions:
     handler: lambda.handler
     events:
         - http: ANY /{proxy+}
-        - http: ANY /
-        - https:
-            path: ANY /{proxy+}
-            method: ANY /
-            cors: true
-        - https:
-            path: ANY /
-            method: ANY /
-            cors: true
+        - https: ANY /
         - schedule:
             rate: cron(0 0 * * ? *)
             enabled: true
