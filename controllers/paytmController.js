@@ -50,152 +50,155 @@ exports.setPaymentStatus = catchAsyncError(async (req, res, next)=>{
     const form=new formidable.IncomingForm();
 
     form.parse(req,(err,fields,file)=>{
-        // console.log('fields', fields)
-        paytmChecksum = fields.CHECKSUMHASH;
-        delete fields.CHECKSUMHASH;
-
-        var isVerifySignature = PaytmChecksum.verifySignature(fields, process.env.PAYTM_MERCHANT_KEY, paytmChecksum);
-        if (isVerifySignature) {
-            var paytmParams = {};
-            paytmParams["MID"]     = fields.MID;
-            paytmParams["ORDERID"] = fields.ORDERID;
+        if(fields.STATUS == 'TXN_FAILURE' && fields.RESPCODE == '141') {
+            res.redirect('https://blossom.nabhdlm.tk/student-subscription')
+        } else {
+            paytmChecksum = fields.CHECKSUMHASH;
+            delete fields.CHECKSUMHASH;
     
-            /*
-            * Generate checksum by parameters we have
-            * Find your Merchant Key in your Paytm Dashboard at https://dashboard.paytm.com/next/apikeys 
-            */
-            PaytmChecksum.generateSignature(paytmParams, process.env.PAYTM_MERCHANT_KEY).then(function(checksum){
-            
-                paytmParams["CHECKSUMHASH"] = checksum;
-            
-                var post_data = JSON.stringify(paytmParams);
-            
-                var options = {
-
-                    /* for Staging */
-                    hostname: 'securegw-stage.paytm.in',
-                    /* for Production */
-                    // hostname: 'securegw.paytm.in',
-                    port: 443,
-                    path: '/order/status',
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Content-Length': post_data.length
-                    }
-                };
-            
-                var response = "";
-                var post_req = https.request(options, function(post_res) {
-                    post_res.on('data', function (chunk) {
-                        response += chunk;
-                    });
-            
-                    post_res.on('end', async function(){
-                        let result = JSON.parse(response);
-                        
-                        result.STUDENT_ID = userInfo.studentId;
-
-                        const paytmData = await paymentModel.create(result);
-
-                        if(paytmData.STATUS == 'TXN_SUCCESS') {
+            var isVerifySignature = PaytmChecksum.verifySignature(fields, process.env.PAYTM_MERCHANT_KEY, paytmChecksum);
+            if (isVerifySignature) {
+                var paytmParams = {};
+                paytmParams["MID"]     = fields.MID;
+                paytmParams["ORDERID"] = fields.ORDERID;
+        
+                /*
+                * Generate checksum by parameters we have
+                * Find your Merchant Key in your Paytm Dashboard at https://dashboard.paytm.com/next/apikeys 
+                */
+                PaytmChecksum.generateSignature(paytmParams, process.env.PAYTM_MERCHANT_KEY).then(function(checksum){
+                
+                    paytmParams["CHECKSUMHASH"] = checksum;
+                
+                    var post_data = JSON.stringify(paytmParams);
+                
+                    var options = {
+    
+                        /* for Staging */
+                        hostname: 'securegw-stage.paytm.in',
+                        /* for Production */
+                        // hostname: 'securegw.paytm.in',
+                        port: 443,
+                        path: '/order/status',
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Content-Length': post_data.length
+                        }
+                    };
+                
+                    var response = "";
+                    var post_req = https.request(options, function(post_res) {
+                        post_res.on('data', function (chunk) {
+                            response += chunk;
+                        });
+                
+                        post_res.on('end', async function(){
+                            let result = JSON.parse(response);
                             
-                            let studentData = await studentModel.findById(paytmData.STUDENT_ID);
-                            if (!studentData) {
-                                return next(new ErrorHandler("student not found", 404));
-                            }
-                            
-                            var currentDate = new Date();
-                            var planDetails = null;
-
-                            if(userInfo.day) {
-
-                                if(studentData.planType != 'free plan' && studentData.subscriptionStatus == 'active'){
-                                    let subscriptionEndDate = studentData.subscriptionEndDate;
-                                    planDetails = {
-                                        planType: userInfo.planType,
-                                        subscriptionEndDate: new Date(subscriptionEndDate.setDate(subscriptionEndDate.getDate() + userInfo.day))
-                                    }
-                                } else {
-                                    planDetails = {
-                                        subscriptionStatus: 'active',
-                                        planType: userInfo.planType,
-                                        subscriptionStartDate: new Date(),
-                                        subscriptionEndDate: new Date(currentDate.setDate(currentDate.getDate() + userInfo.day))
-                                    }
-                                }
-                            } else if (userInfo.month) {
+                            result.STUDENT_ID = userInfo.studentId;
+    
+                            const paytmData = await paymentModel.create(result);
+    
+                            if(paytmData.STATUS == 'TXN_SUCCESS') {
                                 
-                                if(studentData.planType != 'free plan' && studentData.subscriptionStatus == 'active'){
-                                    let subscriptionEndDate = studentData.subscriptionEndDate;
-                                    planDetails = {
-                                        planType: userInfo.planType,
-                                        subscriptionEndDate: new Date(subscriptionEndDate.setMonth(subscriptionEndDate.getMonth() + userInfo.month))
-                                    }
-                                } else {
-                                    planDetails = {
-                                        subscriptionStatus: 'active',
-                                        planType: userInfo.planType,
-                                        subscriptionStartDate: new Date(),
-                                        subscriptionEndDate: new Date(currentDate.setMonth(currentDate.getMonth() + userInfo.month))
-                                    }
+                                let studentData = await studentModel.findById(paytmData.STUDENT_ID);
+                                if (!studentData) {
+                                    return next(new ErrorHandler("student not found", 404));
                                 }
-                            } else if (userInfo.year) {
                                 
-                                if(studentData.planType != 'free plan' && studentData.subscriptionStatus == 'active'){
-                                    let subscriptionEndDate = studentData.subscriptionEndDate;
-                                    planDetails = {
-                                        planType: userInfo.planType,
-                                        subscriptionEndDate: new Date(subscriptionEndDate.setFullYear(subscriptionEndDate.getFullYear() + userInfo.year))
+                                var currentDate = new Date();
+                                var planDetails = null;
+    
+                                if(userInfo.day) {
+    
+                                    if(studentData.planType != 'free plan' && studentData.subscriptionStatus == 'active'){
+                                        let subscriptionEndDate = studentData.subscriptionEndDate;
+                                        planDetails = {
+                                            planType: userInfo.planType,
+                                            subscriptionEndDate: new Date(subscriptionEndDate.setDate(subscriptionEndDate.getDate() + userInfo.day))
+                                        }
+                                    } else {
+                                        planDetails = {
+                                            subscriptionStatus: 'active',
+                                            planType: userInfo.planType,
+                                            subscriptionStartDate: new Date(),
+                                            subscriptionEndDate: new Date(currentDate.setDate(currentDate.getDate() + userInfo.day))
+                                        }
                                     }
+                                } else if (userInfo.month) {
+                                    
+                                    if(studentData.planType != 'free plan' && studentData.subscriptionStatus == 'active'){
+                                        let subscriptionEndDate = studentData.subscriptionEndDate;
+                                        planDetails = {
+                                            planType: userInfo.planType,
+                                            subscriptionEndDate: new Date(subscriptionEndDate.setMonth(subscriptionEndDate.getMonth() + userInfo.month))
+                                        }
+                                    } else {
+                                        planDetails = {
+                                            subscriptionStatus: 'active',
+                                            planType: userInfo.planType,
+                                            subscriptionStartDate: new Date(),
+                                            subscriptionEndDate: new Date(currentDate.setMonth(currentDate.getMonth() + userInfo.month))
+                                        }
+                                    }
+                                } else if (userInfo.year) {
+                                    
+                                    if(studentData.planType != 'free plan' && studentData.subscriptionStatus == 'active'){
+                                        let subscriptionEndDate = studentData.subscriptionEndDate;
+                                        planDetails = {
+                                            planType: userInfo.planType,
+                                            subscriptionEndDate: new Date(subscriptionEndDate.setFullYear(subscriptionEndDate.getFullYear() + userInfo.year))
+                                        }
+                                    } else {
+                                        planDetails = {
+                                            subscriptionStatus: 'active',
+                                            planType: userInfo.planType,
+                                            subscriptionStartDate: new Date(),
+                                            subscriptionEndDate: new Date(currentDate.setFullYear(currentDate.getFullYear() + userInfo.year))
+                                        }
+                                    }
+                                }
+                                const subscriptionDetail = await studentModel.findByIdAndUpdate(paytmData.STUDENT_ID, planDetails,
+                                    {
+                                        new: true,
+                                        runValidators: true,
+                                        useFindAndModify: false
+                                    }
+                                );
+    
+                                if (subscriptionDetail) {
+                                    // res.status(200).json({
+                                    //     success:true,
+                                    //     paytmData,
+                                    //     subscriptionDetail,
+                                    //     planDetails
+                                    // })
+                                    res.redirect(`https://blossom.nabhdlm.tk/subscription-activated`)    
                                 } else {
-                                    planDetails = {
-                                        subscriptionStatus: 'active',
-                                        planType: userInfo.planType,
-                                        subscriptionStartDate: new Date(),
-                                        subscriptionEndDate: new Date(currentDate.setFullYear(currentDate.getFullYear() + userInfo.year))
-                                    }
+                                    // res.status(200).json({
+                                    //     success:false,
+                                    //     message: "your payment have successful. If your subscription is not activated then contact to this number 1234567890 for activate your subscription"
+                                    // })
+                                    res.redirect(`https://blossom.nabhdlm.tk/subscription-not-activated`)
                                 }
-                            }
-                            const subscriptionDetail = await studentModel.findByIdAndUpdate(paytmData.STUDENT_ID, planDetails,
-                                {
-                                    new: true,
-                                    runValidators: true,
-                                    useFindAndModify: false
-                                }
-                            );
-
-                            if (subscriptionDetail) {
-                                // res.status(200).json({
-                                //     success:true,
-                                //     paytmData,
-                                //     subscriptionDetail,
-                                //     planDetails
-                                // })
-                                res.redirect(`https://blossom.nabhdlm.tk/subscription-activated`)    
                             } else {
                                 // res.status(200).json({
                                 //     success:false,
-                                //     message: "your payment have successful. If your subscription is not activated then contact to this number 1234567890 for activate your subscription"
+                                //     paytmData
                                 // })
-                                res.redirect(`https://blossom.nabhdlm.tk/subscription-not-activated`)
+                                res.redirect(`https://blossom.nabhdlm.tk/transaction-failed`)
                             }
-                        } else {
-                            // res.status(200).json({
-                            //     success:false,
-                            //     paytmData
-                            // })
-                            res.redirect(`https://blossom.nabhdlm.tk/transaction-failed`)
-                        }
+                        });
                     });
-                });
-            
-                post_req.write(post_data);
-                post_req.end();
-            });        
-
-        } else {
-            console.log("Checksum Mismatched");
+                
+                    post_req.write(post_data);
+                    post_req.end();
+                });        
+    
+            } else {
+                console.log("Checksum Mismatched");
+            }
         }
 
     })
