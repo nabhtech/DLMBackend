@@ -25,7 +25,7 @@ exports.makePayment = catchAsyncError(async (req, res, next)=>{
     params['ORDER_ID'] = uuidv4(),
     params['CUST_ID'] = process.env.PAYTM_CUST_ID,
     params['TXN_AMOUNT'] = amount,
-    params['CALLBACK_URL'] = 'https://yq42x67fa8.execute-api.us-east-2.amazonaws.com/production/payment/status',
+    params['CALLBACK_URL'] = 'https://kkkjxi7xnk.execute-api.us-east-2.amazonaws.com/production/payment/status',
     params['EMAIL'] = email,
     params['MOBILE_NO'] = '9876543210'
     /**
