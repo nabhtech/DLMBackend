@@ -9,15 +9,24 @@ provider:
   timeout: 15
   region: us-east-2
 
+Resources:
+  ApiGatewayApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Cors:
+        AllowMethods: "'*'"
+        AllowHeaders: "'*'"
+        AllowOrigin: "'*'"
+        MaxAge: "'600'"
+        AllowCredentials: false
+
 functions:
   api:
     handler: lambda.handler
     events:
         - http: ANY /{proxy+}
-        - http: ANY /
-            
-            
-          
+        - http: ANY /          
         - schedule:
             rate: cron(0 1 * * ? *)
             enabled: true
