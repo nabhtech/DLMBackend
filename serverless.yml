@@ -15,9 +15,9 @@ Resources:
     Properties:
       StageName: Prod
       Cors:
-        AllowMethods: "'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT'"
+        AllowMethods: "''"
         AllowHeaders: "'*'"
-        AllowOrigin: "'https://blossom.nabhdlm.tk'"
+        AllowOrigin: "''"
         MaxAge: "'600'"
         AllowCredentials: false
 
