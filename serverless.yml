@@ -9,18 +9,6 @@ provider:
   timeout: 15
   region: us-east-2
 
-resources:
-   Resources:
-     GatewayResponseDefault4XX:
-       Type: 'AWS::ApiGateway::GatewayResponse'
-       Properties:
-         ResponseParameters:
-           gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
-           gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
-         ResponseType: DEFAULT_4XX
-         RestApiId:
-           Ref: 'ApiGatewayRestApi'
-
 functions:
   api:
     handler: lambda.handler
