@@ -1,7 +1,7 @@
 'use strict'
 const awsServerlessExpress = require('aws-serverless-express')
 const app = require('./app')
-const { leaderBoard } = require('../controllers/studentTestController');
+const { leaderBoard } = require('./controllers/studentTestController');
 const server = awsServerlessExpress.createServer(app)
 
 exports.getLeaderboard = async (event, context, callback) => {
