@@ -243,7 +243,6 @@ exports.leaderBoard = catchAsyncError(async(req,res) =>{
             ...matchQuery
         },
         {_id: 0, testId: 1}).sort({testTakenDate:-1}).limit(1);
-        // console.log(lastTest);
         matchQuery2 = {
             $and: [
                 {classId: {$eq: ObjectId(classId)}},
@@ -417,7 +416,6 @@ exports.updateStudentAttendance = catchAsyncError(async(req, res, next)=>{
     if (!student) {
         return next(new ErrorHandler("student not found", 404));
     }
-
     res.status(200).json({
         success:true
     })

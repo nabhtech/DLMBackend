@@ -8,7 +8,8 @@ const { updateStudentTestRecord,
     ShowQueAns,
     generateStudentTestRecord,
     updateStudentAttendance,
-    checkTestAttendance} = require('../controllers/studentTestController');
+    checkTestAttendance,
+    generateNewStudentTest} = require('../controllers/studentTestController');
 const router = express.Router();
 
 
@@ -556,5 +557,44 @@ router.route('/update/attendance/:studentId/:testId').put(updateStudentAttendanc
  *                                      type: boolean
  */
 router.route('/check/test/attendance/:studentId/:testId').get(checkTestAttendance)
+
+/**
+ * @swagger
+ *  /generate/test/record/{classId}:
+ *      post:
+ *          tags:
+ *              -   Student test record api
+ *          summary: 
+ *          description:
+ *          parameters:
+ *              -   in: path
+ *                  name: classId
+ *                  required: true
+ *                  description: Give class unique object id
+ *                  schema:
+ *                      type: string
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              studentId:
+ *                                  type: string
+ *                              currentSessionId:
+ *                                  type: string
+ *          responses:
+ *              200:
+ *                  description: Successful
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  success:
+ *                                      type: boolean
+ */
+router.route('/generate/test/record/:classId').post(generateNewStudentTest);
 
 module.exports = router;
