@@ -18,6 +18,7 @@ exports.getLeaderboard = async (event, context, callback) => {
         }),
       };
      
+      awsServerlessExpress.proxy(server, event, context)
       callback(null, response);
 }
 
