@@ -10,7 +10,7 @@ provider:
   region: us-east-2
 
 functions:
-  getLeaderboard:
+  api:
     handler: lambda.getLeaderboard
     events:
       - http:
