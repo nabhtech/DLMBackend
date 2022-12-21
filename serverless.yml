@@ -17,20 +17,20 @@ functions:
           path: /leaderboard/{classId}
           method: get
           cors: true
-  api:
-    handler: lambda.handler
-    events:
-        - http:
-            path: /
-            method: ANY
-            cors: true
-        - http: 
-            path: /{proxy+}
-            method: ANY
-            cors: true          
-        - schedule:
-            rate: cron(0 1 * * ? *)
-            enabled: true
+  # api:
+  #   handler: lambda.handler
+  #   events:
+  #       - http:
+  #           path: /
+  #           method: ANY
+  #           cors: true
+  #       - http: 
+  #           path: /{proxy+}
+  #           method: ANY
+  #           cors: true          
+  #       - schedule:
+  #           rate: cron(0 1 * * ? *)
+  #           enabled: true
     environment:
           DB_URL: mongodb+srv://Nabh:Nabh123@cluster0.rbcigf9.mongodb.net/nabh-dlm
           
