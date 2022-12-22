@@ -58,6 +58,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'POST, OPTIONS, GET, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+    if ('OPTIONS' === req.method) {
+      res.send(200);
+    }
+    else {
+      next();
+    }
+});
 // const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 // app.use(awsServerlessExpressMiddleware.eventContext())
 
