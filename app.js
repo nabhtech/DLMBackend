@@ -58,6 +58,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
+// const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
+// app.use(awsServerlessExpressMiddleware.eventContext())
 
 const options = {
     definition: {

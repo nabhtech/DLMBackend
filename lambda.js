@@ -22,4 +22,4 @@ exports.getLeaderboard = async (event, context, callback) => {
       callback(null, response);
 }
 
-exports.handler = (event, context) => awsServerlessExpress.proxy(server, event, context)
+// exports.handler = (event, context) => awsServerlessExpress.proxy(server, event, context)

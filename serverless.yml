@@ -15,7 +15,7 @@ functions:
     events:
       - http:
           path: /leaderboard/{classId}
-          method: get
+          method: GET
           cors: true
   # api:
   #   handler: lambda.handler
