@@ -216,7 +216,7 @@ exports.countStudentPresent = catchAsyncError(async(req,res) =>{
 });
 
 //leaderboard API
-exports.leaderBoard = catchAsyncError(async(event) =>{
+exports.leaderBoard = catchAsyncError(async(req, res, next) =>{
     // const classId = req.params.classId;
     // let subjectId = ''
     // let testId = ''
@@ -311,8 +311,6 @@ exports.leaderBoard = catchAsyncError(async(event) =>{
     // ])
     res.status(200).json({
         success: true,
-        pathParameter: event.pathParameter.classId,
-        event: event,
         rankList: "api run"
     });
 });
