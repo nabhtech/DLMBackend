@@ -10,13 +10,6 @@ provider:
   region: us-east-2
 
 functions:
-  # api:
-  #   handler: lambda.getLeaderboard
-  #   events:
-  #     - http:
-  #         path: /leaderboard/{classId}
-  #         method: GET
-  #         cors: true
   api:
     handler: lambda.handler
     events:

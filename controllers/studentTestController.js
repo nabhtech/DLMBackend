@@ -217,101 +217,101 @@ exports.countStudentPresent = catchAsyncError(async(req,res) =>{
 
 //leaderboard API
 exports.leaderBoard = catchAsyncError(async(req, res, next) =>{
-    // const classId = req.params.classId;
-    // let subjectId = ''
-    // let testId = ''
-    // const matchQuery = {
-    //     $and:[
-    //         {classId: {$eq: classId}},
-    //         {showTest:{$eq: true}}
-    //     ]
-    // }
+    const classId = req.params.classId;
+    let subjectId = ''
+    let testId = ''
+    const matchQuery = {
+        $and:[
+            {classId: {$eq: classId}},
+            {showTest:{$eq: true}}
+        ]
+    }
 
-    // if (req.query.subjectId) {
-    //     subjectId = req.query.subjectId;
-    //     matchQuery.$and = [
-    //         {classId: {$eq: classId}},
-    //         {showTest:{$eq: true}},
-    //         {subjectId: {$eq: subjectId}}
-    //     ]
-    // }
+    if (req.query.subjectId) {
+        subjectId = req.query.subjectId;
+        matchQuery.$and = [
+            {classId: {$eq: classId}},
+            {showTest:{$eq: true}},
+            {subjectId: {$eq: subjectId}}
+        ]
+    }
 
-    // let lastTest = []
-    // let matchQuery2 = {}
-    // if(!req.query.testId) {
-    //     lastTest = await studentTestModel.find({
-    //         ...matchQuery
-    //     },
-    //     {_id: 0, testId: 1}).sort({testTakenDate:-1}).limit(1);
-    //     matchQuery2 = {
-    //         $and: [
-    //             {classId: {$eq: ObjectId(classId)}},
-    //             {showTest:{$eq: true}},
-    //             {testId: {$eq: ObjectId(lastTest[0].testId)}}
-    //         ]
-    //     } 
-    // }
+    let lastTest = []
+    let matchQuery2 = {}
+    if(!req.query.testId) {
+        lastTest = await studentTestModel.find({
+            ...matchQuery
+        },
+        {_id: 0, testId: 1}).sort({testTakenDate:-1}).limit(1);
+        matchQuery2 = {
+            $and: [
+                {classId: {$eq: ObjectId(classId)}},
+                {showTest:{$eq: true}},
+                {testId: {$eq: ObjectId(lastTest[0].testId)}}
+            ]
+        } 
+    }
 
-    // if(req.query.testId) {
-    //     testId = req.query.testId
-    //     matchQuery2.$and = [
-    //         {classId: {$eq: ObjectId(classId)}},
-    //         {showTest:{$eq: true}},
-    //         {subjectId: {$eq: ObjectId(subjectId)}},
-    //         {testId: {$eq: ObjectId(testId)}}
-    //     ]
-    // }
+    if(req.query.testId) {
+        testId = req.query.testId
+        matchQuery2.$and = [
+            {classId: {$eq: ObjectId(classId)}},
+            {showTest:{$eq: true}},
+            {subjectId: {$eq: ObjectId(subjectId)}},
+            {testId: {$eq: ObjectId(testId)}}
+        ]
+    }
 
-    // // const rankList = await studentTestModel.find({
-    // //     ...matchQuery2
-    // // }, 
-    // // {studentId: 1 ,percentage: 1}).sort({percentage:-1});
+    // const rankList = await studentTestModel.find({
+    //     ...matchQuery2
+    // }, 
+    // {studentId: 1 ,percentage: 1}).sort({percentage:-1});
 
-    // const rankList = await studentTestModel.aggregate([
-    //     {
-    //         $match: matchQuery2
-    //     },
-    //     {
-    //         $lookup: {
-    //             from: 'students',
-    //             localField: 'studentId',
-    //             foreignField: '_id',
-    //             as: 'studentId'
-    //         },
-    //     },
-    //     {
-    //         $lookup: {
-    //             from: 'subjects',
-    //             localField: 'subjectId',
-    //             foreignField: '_id',
-    //             as: 'subjectId'
-    //         }
-    //     },
-    //     {
-    //         $lookup: {
-    //             from: 'test_details',
-    //             localField: 'testId',
-    //             foreignField: '_id',
-    //             as: 'testId'
-    //         }
-    //     },
-    //     {
-    //         $project: {
-    //           "_id": 0,
-    //           "testId.testName": 1,
-    //           "subjectId.subject": 1,
-    //           "percentage": 1,
-    //           "trophies": 1,
-    //           "medals": 1,
-    //           "studentId._id": 1,
-    //           "studentId.firstName": 1,
-    //           "studentId.lastName": 1          
-    //         }
-    //     }
-    // ])
+    const rankList = await studentTestModel.aggregate([
+        {
+            $match: matchQuery2
+        },
+        {
+            $lookup: {
+                from: 'students',
+                localField: 'studentId',
+                foreignField: '_id',
+                as: 'studentId'
+            },
+        },
+        {
+            $lookup: {
+                from: 'subjects',
+                localField: 'subjectId',
+                foreignField: '_id',
+                as: 'subjectId'
+            }
+        },
+        {
+            $lookup: {
+                from: 'test_details',
+                localField: 'testId',
+                foreignField: '_id',
+                as: 'testId'
+            }
+        },
+        {
+            $project: {
+              "_id": 0,
+              "testId.testName": 1,
+              "subjectId.subject": 1,
+              "percentage": 1,
+              "trophies": 1,
+              "medals": 1,
+              "studentId._id": 1,
+              "studentId.firstName": 1,
+              "studentId.lastName": 1          
+            }
+        }
+    ])
     res.status(200).json({
         success: true,
-        rankList: "api run"
+        rankList
     });
 });
 
