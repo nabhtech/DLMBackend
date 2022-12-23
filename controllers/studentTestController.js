@@ -216,7 +216,7 @@ exports.countStudentPresent = catchAsyncError(async(req,res) =>{
 });
 
 //leaderboard API
-exports.leaderBoard = catchAsyncError(async(req, res, next) =>{
+exports.leaderBoard = catchAsyncError(async(req,res) =>{
     const classId = req.params.classId;
     let subjectId = ''
     let testId = ''
