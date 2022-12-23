@@ -1,8 +1,9 @@
 'use strict'
-const awsServerlessExpress = require('aws-serverless-express')
+// const awsServerlessExpress = require('aws-serverless-express')
+const serverless= require('serverless-http')
 const app = require('./app')
 // const { leaderBoard } = require('./controllers/studentTestController');
-const server = awsServerlessExpress.createServer(app)
+// const server = awsServerlessExpress.createServer(app)
 
 // exports.getLeaderboard = async (event, context, callback) => {
 //     const leaderboard = await leaderBoard(event)
@@ -22,4 +23,5 @@ const server = awsServerlessExpress.createServer(app)
 //       callback(null, response);
 // }
 
-exports.handler = (event, context) => awsServerlessExpress.proxy(server, event, context)
+// exports.handler = (event, context) => awsServerlessExpress.proxy(server, event, context)
+exports.handler = serverless(app)
