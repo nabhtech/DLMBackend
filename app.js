@@ -44,14 +44,14 @@ connectDatabase();
 // });
 
 // handling mongodb connection rejected error
-// process.on("unhandledRejection", (err)=>{
-//     console.log(`Error: ${err.message}`);
-//     console.log(`Shutting down the server due to unhandled promise rejection`);
+process.on("unhandledRejection", (err)=>{
+    console.log(`Error: ${err.message}`);
+    console.log(`Shutting down the server due to unhandled promise rejection`);
 
-//     server.close(()=>{
-//         process.exit(1);
-//     });
-// });
+    server.close(()=>{
+        process.exit(1);
+    });
+});
 
 const app = express();
 
