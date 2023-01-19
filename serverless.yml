@@ -19,5 +19,5 @@ functions:
 #             rate: cron(0 1 * * ? *)
 #             enabled: true
     environment:
-          DB_URL: mongodb+srv://Nabh:Nabh123@cluster0.rbcigf9.mongodb.net/nabh-dlm
+          DB_URL: mongodb+srv://NabhDLM:Nabh%408817@cluster0.lvldd22.mongodb.net/nabh_dlm_testing
           
