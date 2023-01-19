@@ -4,6 +4,7 @@ const connectDatabase = require('./config/dbConfig');
 const cors = require('cors');
 const momentTz = require('moment-timezone');
 const serverless =require('aws-serverless-express');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 // Route imports
 const classRoute = require('./routes/classRoute');
@@ -55,6 +56,8 @@ process.on("unhandledRejection", (err)=>{
 });
 
 const app = express();
+app.use('/api', createProxyMiddleware({ target: 'https://blossom.nabhdlm.tk', changeOrigin: true }));
+app.listen(3000);
 
 app.use(cors());
 app.use(express.json());
