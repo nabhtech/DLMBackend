@@ -3,6 +3,7 @@ const dotenv =require('dotenv');
 const connectDatabase = require('./config/dbConfig');
 const cors = require('cors');
 const momentTz = require('moment-timezone');
+const serverless =require('aws-serverless-express');
 
 // Route imports
 const classRoute = require('./routes/classRoute');
