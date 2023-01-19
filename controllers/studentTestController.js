@@ -5,6 +5,7 @@ const questionBankModel = require('../models/questionModel');
 const testDetailModel = require('../models/testDetailModel');
 const ObjectId = require('mongoose').Types.ObjectId
 const studentModel = require('../models/studentModel');
+const momentTz = require('moment-timezone');
 
 // Create all student test record for particular test
 exports.generateStudentTestRecord = catchAsyncError(async (req, res, next)=> {
@@ -16,11 +17,11 @@ exports.generateStudentTestRecord = catchAsyncError(async (req, res, next)=> {
             studentId: data[i]._id,
             classId: req.body.classId,
             testId: req.body.testId,
-            subjectId: req.body.subjectId,
             isPresent: false,
             showTest: false,
             resultStatus: "failed",
-            currentSessionId: req.body.currentSessionId
+            currentSessionId: req.body.currentSessionId,
+            subjectId: req.body.subjectId
         });
     }
 
@@ -243,6 +244,7 @@ exports.leaderBoard = catchAsyncError(async(req,res) =>{
             ...matchQuery
         },
         {_id: 0, testId: 1}).sort({testTakenDate:-1}).limit(1);
+        // console.log(lastTest);
         matchQuery2 = {
             $and: [
                 {classId: {$eq: ObjectId(classId)}},
@@ -416,6 +418,7 @@ exports.updateStudentAttendance = catchAsyncError(async(req, res, next)=>{
     if (!student) {
         return next(new ErrorHandler("student not found", 404));
     }
+
     res.status(200).json({
         success:true
     })
@@ -434,4 +437,33 @@ exports.checkTestAttendance = catchAsyncError(async(req, res, next)=>{
     res.status(200).json({
         isPresent: isPresent[0].isPresent
     })
+});
+
+exports.generateNewStudentTest = catchAsyncError(async(req, res) =>{
+    let date = momentTz(new Date()).tz('Asia/Kolkata')
+    const test = await testDetailModel.find({
+        $and: [
+            {classId: {$eq: req.params.classId}},
+            {testDate:{$gte:date.format('YYYY-MM-DD')}}
+        ]
+    },{_id: 1, testName: 1, classId: 1, subjectId: 1, });
+
+    let studentRecord = []
+
+    for(let i = 0; i < test.length; i++){
+        studentRecord.push({
+            studentId: req.body.studentId,
+            classId: test[i].classId,
+            testId: test[i]._id,
+            subjectId: test[i].subjectId,
+            isPresent: false,
+            showTest: false,
+            resultStatus: "failed",
+            currentSessionId: req.body.currentSessionId
+        });
+    }
+    await studentTestModel.insertMany(studentRecord)
+    res.status(200).json({
+        success: true
+    });
 });

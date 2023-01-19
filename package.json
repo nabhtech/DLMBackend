@@ -2,17 +2,15 @@
   "name": "nabhdlm-node",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "dev": "npx nodemon",
-    "deploy": "serverless deploy"
+    "dev": "npx nodemon"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-serverless-express": "^3.4.0",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -25,7 +23,6 @@
     "mongoose": "^6.5.2",
     "node-cron": "^3.0.2",
     "nodemon": "^2.0.19",
-    "serverless-http": "^3.1.0",
     "swagger-jsdoc": "^6.2.5",
     "swagger-ui-express": "^4.6.0",
     "uuid": "^9.0.0",
