@@ -60,7 +60,7 @@ const app = express();
 // app.listen(3000);
 
 app.use(cors({
-    origin: 'https://blossom.nabhdlm.tk'
+    origin: '*'
 }));
 
 // app.use(cors());
