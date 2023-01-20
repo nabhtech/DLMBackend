@@ -56,10 +56,14 @@ process.on("unhandledRejection", (err)=>{
 });
 
 const app = express();
-app.use('/api', createProxyMiddleware({ target: 'https://blossom.nabhdlm.tk', changeOrigin: true }));
-app.listen(3000);
+// app.use('/api', createProxyMiddleware({ target: 'https://blossom.nabhdlm.tk', changeOrigin: true }));
+// app.listen(3000);
 
-app.use(cors());
+app.use(cors({
+    origin: 'https://blossom.nabhdlm.tk'
+}));
+
+// app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 // app.use(function(req, res, next) {
